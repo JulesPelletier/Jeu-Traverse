@@ -1,4 +1,4 @@
-#include "lib_func.h"
+#include "../includes/lib_func.h"
 
 char    **test_1(void)
 {
@@ -90,7 +90,7 @@ void    test_rules(void)
     }
 }
 
-int main(void)
+int main_1(void)
 {
     test_rules();
     test_2();
