@@ -90,7 +90,7 @@ void    test_rules(void)
     }
 }
 
-int main_1(void)
+int main(void)
 {
     test_rules();
     test_1();

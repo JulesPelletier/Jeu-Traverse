@@ -14,18 +14,21 @@ SRC			=	srcs/affichage.c				\
 				srcs/secu.c						\
 				srcs/swap.c						\
 				srcs/update_pos.c				\
-				srcs/main.c						\
+				main/main.c						\
 
 
 #	Includes
+
 INCLUDES	=	includes/lib_func.h	
 
 #	Objects
+
 OBJS		= 	${SRC:.c=.o}
 
 OBJS_B		=	${SRC_BONUS:.c=.o}
 
 #	Output
+
 NAME    = 	traverse
 
 CC      = 	cc
