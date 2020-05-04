@@ -9,8 +9,8 @@ SRC			=	srcs/affichage.c				\
 				srcs/init_struct.c				\
 				srcs/is_alpha.c					\
 				srcs/is_pawn.c					\
-				srcs/move_pawn.c				\
-				srcs/move_possible.c			\
+				srcs/move_pawn.c 				\
+				srcs/saut.c						\
 				srcs/secu.c						\
 				srcs/swap.c						\
 				srcs/update_pos.c				\

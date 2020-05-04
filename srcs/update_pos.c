@@ -1,6 +1,6 @@
 #include "../includes/lib_func.h"
 
-t_pawns     upadte_pos(t_pawns player, int posi1, int posj1, int posi2, int posj2)
+t_pawns     update_pos(t_pawns player, int posi1, int posj1, int posi2, int posj2)
 {
     if ((player.posi_C1 == posi1) && (player.posj_C1 == posj1))
     {

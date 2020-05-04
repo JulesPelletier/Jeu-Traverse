@@ -93,6 +93,7 @@ void    test_rules(void)
 int main_1(void)
 {
     test_rules();
+    test_1();
     test_2();
     return (0);
 }

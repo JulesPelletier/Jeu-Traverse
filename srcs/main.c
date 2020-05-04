@@ -39,6 +39,12 @@ int     main(int ac, char **av)
     int         check_start;
     int         check_input;
 
+    int IAi_1;
+    int IAi_2;
+    int IAj_1;
+    int IAj_2;
+    int     *pos_final;
+
     pos_arrivee_i = 0;
     pos_arrivee_j = 0;
     pos_depart_i = 0;
@@ -61,91 +67,200 @@ int     main(int ac, char **av)
 
     affichage_map_bis(map, players);
 
-    while (players[0].player_won == 0 && players[1].player_won == 0)
+    if (rules.mode == 1)
     {
-        players[0].player_played = 0;
-        players[1].player_played = 0;
+        while (players[0].player_won == 0 && players[1].player_won == 0)
+        {
+            players[0].player_played = 0;
+            players[1].player_played = 0;
 
-        while (players[0].player_played == 0)
-        {
-            error_move = 0;
-            check_arr = 0;
-            check_input = 0;
-            check_start = 0;
-            printf(WHT"\n  ------  Tour du joueur 1  ------ \n\n");
-            printf("Case de depart \n\n");
-            printf("Numero ligne : ");
-            scanf("%d", &pos_depart_i);
-            printf("Numero colonne : ");
-            scanf("%d", &pos_depart_j);
-            printf("\n\n");
-            printf("Case d'arrivee \n\n");
-            printf("Numero ligne : ");
-            scanf("%d", &pos_arrivee_i);
-            printf("Numero colonne : ");
-            scanf("%d", &pos_arrivee_j);
-            printf("\n\n");
-            check_input = check_inputs(pos_arrivee_i, pos_arrivee_j, pos_depart_i, pos_depart_j);
-            if (check_input == 0)
+            while (players[0].player_played == 0)
             {
-                error_move = error_pawn(players[0], pos_depart_i);
-                check_arr = check_arrival(pos_arrivee_i, pos_arrivee_j, map);
-                check_start = check_starting_pos(pos_depart_i, pos_depart_j, map);
-                if (error_move == 0 && check_arr == 0 && check_start == 0)
+                error_move = 0;
+                check_arr = 0;
+                check_input = 0;
+                check_start = 0;
+                printf(WHT"\n  ------  Tour du joueur 1  ------ \n\n");
+                printf("Case de depart \n\n");
+                printf("Numero ligne : ");
+                scanf("%d", &pos_depart_i);
+                printf("Numero colonne : ");
+                scanf("%d", &pos_depart_j);
+                printf("\n\n");
+                printf("Case d'arrivee \n\n");
+                printf("Numero ligne : ");
+                scanf("%d", &pos_arrivee_i);
+                printf("Numero colonne : ");
+                scanf("%d", &pos_arrivee_j);
+                printf("\n\n");
+                check_input = check_inputs(pos_arrivee_i, pos_arrivee_j, pos_depart_i, pos_depart_j);
+                if (check_input == 0)
                 {
-                    if (check_move(pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j, map) != -1)
+                    error_move = error_pawn(players[0], pos_depart_i);
+                    check_arr = check_arrival(players[0], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j, map);
+                    check_start = check_starting_pos(pos_depart_i, pos_depart_j, map);
+                    if (error_move == 0 && check_arr == 0 && check_start == 0)
                     {
+                        if (check_move(players[0], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j, map) != -1)
+                        {
+                            players[0].player_played = 1;
+                            players[0] = update_pos(players[0], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j);
+                        }
+                    }
+                    else if (error_move == 0 && check_arr == -1 && check_input == 0)
+                    {
+                        pos_final = saut(players[0], pos_depart_i, pos_arrivee_i, pos_depart_j, pos_arrivee_j, map);
                         players[0].player_played = 1;
-                        players[0] = upadte_pos(players[0], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j);
+                        players[0] = update_pos(players[0], pos_depart_i, pos_depart_j, pos_final[0], pos_final[1]);
                     }
                 }
+                //affichage_simple(map);
+                affichage_map_bis(map, players);
             }
-            //affichage_simple(map);
-            affichage_map_bis(map, players);
-        }
-        while (players[1].player_played == 0)
-        {
-            error_move = 0;
-            check_arr = 0;
-            check_input = 0;
-            printf(WHT"\n  ------  Tour du joueur 2  ------ \n\n");
-            printf("Case de depart \n\n");
-            printf("Numero ligne : ");
-            scanf("%d", &pos_depart_i);
-            printf("\n");
-            printf("Numero ligne : ");
-            scanf("%d", &pos_depart_j);
-            printf("\n\n");
-            printf("Case d'arrivee \n\n");
-            printf("Numero ligne : ");
-            scanf("%d", &pos_arrivee_i);
-            printf("\n");
-            printf("Numero ligne : ");
-            scanf("%d", &pos_arrivee_j);
-            printf("\n\n");
-            check_input = check_inputs(pos_arrivee_i, pos_arrivee_j, pos_depart_i, pos_depart_j);
-            if (check_input == 0)
+            while (players[1].player_played == 0)
             {
-                error_move = error_pawn(players[1], pos_depart_i);
-                check_arr = check_arrival(pos_arrivee_i, pos_arrivee_j, map);
-                if (error_move == 0 && check_arr == 0 && check_input == 0)
+                error_move = 0;
+                check_arr = 0;
+                check_input = 0;
+                printf(WHT"\n  ------  Tour du joueur 2  ------ \n\n");
+                printf("Case de depart \n\n");
+                printf("Numero ligne : ");
+                scanf("%d", &pos_depart_i);
+                printf("\n");
+                printf("Numero ligne : ");
+                scanf("%d", &pos_depart_j);
+                printf("\n\n");
+                printf("Case d'arrivee \n\n");
+                printf("Numero ligne : ");
+                scanf("%d", &pos_arrivee_i);
+                printf("\n");
+                printf("Numero ligne : ");
+                scanf("%d", &pos_arrivee_j);
+                printf("\n\n");
+                check_input = check_inputs(pos_arrivee_i, pos_arrivee_j, pos_depart_i, pos_depart_j);
+                if (check_input == 0)
                 {
-                    if (check_move(pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j, map) != -1)
+                    error_move = error_pawn(players[1], pos_depart_i);
+                    check_arr = check_arrival(players[1], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j, map);
+                    if (error_move == 0 && check_arr == 0 && check_input == 0)
                     {
+                        if (check_move(players[1], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j, map) != -1)
+                        {
+                            players[1].player_played = 1;
+                            players[1] = update_pos(players[1], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j);
+                        }
+                    }
+                    else if (error_move == 0 && check_arr == -1 && check_input == 0)
+                    {
+                        pos_final = saut(players[1], pos_depart_i, pos_arrivee_i, pos_depart_j, pos_arrivee_j, map);
                         players[1].player_played = 1;
-                        players[1] = upadte_pos(players[1], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j);
+                        players[1] = update_pos(players[1], pos_depart_i, pos_depart_j, pos_final[0], pos_final[1]);
                     }
                 }
+                //affichage_simple(map);
+                affichage_map_bis(map, players);
             }
-            //affichage_simple(map);
-            affichage_map_bis(map, players);
+            compteur++;
+            //printf("####Compteur : %d\n", compteur);
+            if (check_rounds(compteur, map, players) == 1)
+                break;
+            check_victory(players[0]);
+            check_victory(players[1]);
         }
-        compteur++;
-        //printf("####Compteur : %d\n", compteur);
-        if (check_rounds(compteur, map, players) == 1)
-            break;
-        check_victory(players[0]);
-        check_victory(players[1]);
+    }
+    if (rules.mode == 2)
+    {
+        while (players[0].player_won == 0 && players[1].player_won == 0)
+        {
+            players[0].player_played = 0;
+            players[1].player_played = 0;
+
+            while (players[0].player_played == 0)
+            {
+                error_move = 0;
+                check_arr = 0;
+                check_input = 0;
+                check_start = 0;
+                printf(WHT"\n  ------  Tour du joueur 1  ------ \n\n");
+                printf("Case de depart \n\n");
+                printf("Numero ligne : ");
+                scanf("%d", &pos_depart_i);
+                printf("Numero colonne : ");
+                scanf("%d", &pos_depart_j);
+                printf("\n\n");
+                printf("Case d'arrivee \n\n");
+                printf("Numero ligne : ");
+                scanf("%d", &pos_arrivee_i);
+                printf("Numero colonne : ");
+                scanf("%d", &pos_arrivee_j);
+                printf("\n\n");
+                check_input = check_inputs(pos_arrivee_i, pos_arrivee_j, pos_depart_i, pos_depart_j);
+                if (check_input == 0)
+                {
+                    error_move = error_pawn(players[0], pos_depart_i);
+                    check_arr = check_arrival(players[0], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j, map);
+                    check_start = check_starting_pos(pos_depart_i, pos_depart_j, map);
+                    if (error_move == 0 && check_arr == 0 && check_start == 0)
+                    {
+                        if (check_move(players[0], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j, map) != -1)
+                        {
+                            players[0].player_played = 1;
+                            players[0] = update_pos(players[0], pos_depart_i, pos_depart_j, pos_arrivee_i, pos_arrivee_j);
+                        }
+                    }
+                    else if (error_move == 0 && check_arr == -1 && check_input == 0)
+                    {
+                        pos_final = saut(players[0], pos_depart_i, pos_arrivee_i, pos_depart_j, pos_arrivee_j, map);
+                        players[0].player_played = 1;
+                        players[0] = update_pos(players[0], pos_depart_i, pos_depart_j, pos_final[0], pos_final[1]);
+                    }
+                }
+                //affichage_simple(map);
+                affichage_map_bis(map, players);
+            }
+            while (players[1].player_played == 0)
+            {
+                error_move = 0;
+                check_arr = 0;
+                check_input = 0;
+                IAi_1 = 0;
+                IAj_1 = 0;
+                IAi_2 = 0;
+                IAj_2 = 0;
+                printf(WHT"\n  ------  Tour de l'IA  ------ \n\n");
+                while (check_IA(players[1], IAi_1, IAj_1) != 1)
+                {
+                    IAi_1 = rand() % 10;
+                    IAj_1 = rand() % 10;
+                }
+                while (check_move_IA(players[1], IAi_1, IAj_1, IAi_2, IAj_2, map) == -1)
+                {
+                    IAi_2 = rand() % 10;
+                    IAj_2 = rand() % 10;
+                }
+                check_arr = check_arrival(players[1], IAi_1, IAj_1, IAi_2, IAj_2, map);
+                if (check_arr == 0)
+                {
+                    players[1].player_played = 1;
+                    players[1] = update_pos(players[1], IAi_1, IAj_1, IAi_2, IAj_2);
+                }
+                else if (check_arr == -1)
+                {
+                    pos_final = saut(players[1], IAi_1, IAi_2, IAj_1, IAj_2, map);
+                    players[1].player_played = 1;
+                    players[1] = update_pos(players[1], IAi_1, IAj_1, pos_final[0], pos_final[1]);
+                }
+                //affichage_simple(map);
+                affichage_map_bis(map, players);
+            }
+            compteur++;
+            //printf("####Compteur : %d\n", compteur);
+            if (check_rounds(compteur, map, players) == 1)
+                break;
+            check_victory(players[0]);
+            check_victory(players[1]);
+        }
+
     }
     if (players[0].player_won == 1)
     {

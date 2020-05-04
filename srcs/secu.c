@@ -14,11 +14,23 @@ t_rules     check_rules(int ac, char **av)
     {
         rules.number_players = atoi(av[1]);
         rules.mode = atoi(av[2]);
+        if (rules.mode == 2)
+            printf(GRN"MODE 2 : player vs IA \n");
     }
     else if (ac == 2)
     {
         rules.number_players = atoi(av[1]);
         rules.mode = 1;
+        if (rules.number_players > 2)
+        {
+            printf(RED"MODE BONUS : NOT DONE");
+            rules.error = -1;
+        }
+        if (rules.number_players == 1)
+        {
+            printf(RED"MODE NOT POSSIBLE\n");
+            rules.error = -1;
+        }
     }
     else if (ac == 1)
     {
@@ -68,4 +80,19 @@ int     check_inputs(int posi1, int posi2, int posj1, int posj2)
         return (-1);
     }
     return (0);
+}
+
+int     check_IA(t_pawns player, int posi1, int posj1)
+{
+    if (((posi1 == player.posi_C1) && (posj1 == player.posj_C1))
+        || ((posi1 == player.posi_C2) && (posj1 == player.posj_C2))
+        || ((posi1 == player.posi_K1) && (posj1 == player.posj_K1))
+        || ((posi1 == player.posi_K2) && (posj1 == player.posj_K2))
+        || ((posi1 == player.posi_L1) && (posj1 == player.posj_L1))
+        || ((posi1 == player.posi_L2) && (posj1 == player.posj_L2))
+        || ((posi1 == player.posi_T1) && (posj1 == player.posj_T1))
+        || ((posi1 == player.posi_T2) && (posj1 == player.posj_T2)))
+        return (1);
+    else
+        return (0);
 }

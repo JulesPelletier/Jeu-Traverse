@@ -57,8 +57,9 @@ int		    isalpha(int c);
 int         move_possible(int x, int y, char **map);
 void        map_filled(char **map, t_pawns player);
 void        swap(int posi1, int posi2, int posj1, int posj2, char **map);
+int         *saut(t_pawns player, int posi1, int posi2, int posj1, int posj2, char **map);
 
-t_pawns     upadte_pos(t_pawns player, int posi1, int posj1, int posi2, int posj2);
+t_pawns     update_pos(t_pawns player, int posi1, int posj1, int posi2, int posj2);
 
 void        init_rules(t_rules *rules);
 void        configure_struct_1(t_pawns *player);
@@ -66,13 +67,16 @@ void        configure_struct_2(t_pawns *player);
 
 t_rules     check_rules(int ac, char **av);
 int         check_rules_params(t_rules rules);
-int         check_move(int posi1, int posi2, int posj1, int posj2, char **map);
+int         check_move(t_pawns player, int posi1, int posj1, int posi2, int posj2, char **map);
+int         check_move_IA(t_pawns player, int posi1, int posj1, int posi2, int posj2, char **map);
 int         error_pawn(t_pawns player, int posi1);
-int         check_arrival(int posi2, int posj2, char **map);
+int         check_arrival(t_pawns player, int posi1, int posi2, int posj1, int posj2, char **map);
 int         check_inputs(int posi1, int posi2, int posj1, int posj2);
 int         check_starting_pos(int posi1, int posj1, char **map);
 int         check_rounds(int compteur, char **map, t_pawns *players);
 void        check_victory(t_pawns player);
+
+int         check_IA(t_pawns player, int posi1, int posj1);
 
 
 
